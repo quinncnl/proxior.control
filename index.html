@@ -1,104 +1,170 @@
 <!DOCTYPE html>
 
 <html>
-<head>
-<title>Proxior Options</title>
-<link href="css/redmond/jquery-ui-1.10.1.custom.css" rel="stylesheet">
-<script src="js/jquery-1.9.1.js"></script>
-<script src="js/jquery-ui-1.10.1.custom.min.js"></script>
-<script src="js/jquery.cookie.js"></script>
-<script src="main.js"></script>
+  <head>
+    <title>Proxior Options</title>
+    <link href="css/redmond/jquery-ui-1.10.1.custom.css" rel="stylesheet">
+    <script src="js/jquery-1.9.1.js"></script>
+    <script src="js/jquery-ui-1.10.1.custom.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="main.js"></script>
 
-<style>
-	body{
-		font: 75% "Trebuchet MS", sans-serif;
-		margin: 50px;
-}
-.fakewindowcontain .ui-widget-overlay {
-		position: absolute;
-}
-.title {
-font: 28px "Trebuchet MS", sans-serif;
-}
-.querylist {
-color: #FF6600;
-}
-.log_detail {
-background-color: #eee;
-}
-.log_url {
-color: red;
-margin-bottom: 10px;
-}
+    <style>
+      body{
+      font: 75% "Trebuchet MS", sans-serif;
+      margin: 50px;
+      }
+      .fakewindowcontain .ui-widget-overlay {
+      position: absolute;
+      }
+      .title {
+      font: 28px "Trebuchet MS", sans-serif;
+      }
+      .querylist {
+      color: #FF6600;
+      }
+      .log_detail {
+      background-color: #eee;
+      }
+      .log_url {
+      color: red;
+      margin-bottom: 10px;
+      }
 
-div {
-line-height: 28px;
-}
-</style>
+    </style>
 
-</head>
+  </head>
 
-<body>
-<!-- Tabs -->
-<h1 class="title">Proxior Options</h1>
-<div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">Rules</a></li>
-		<li><a href="#tabs-2">Log</a></li>
-		<li><a href="#tabs-3">Setting</a></li>
-		<li><a href="#tabs-4">About</a></li>
-	</ul>
-	<div id="tabs-1">
-	  
-<p><strong>QUERY A URL</strong></p>
-<input type="text" id="iptquery" size="80" /><br />
+  <body>
+    <!-- Tabs -->
+    <h1 class="title">Proxior Options</h1>
+    <div id="tabs">
+      <ul>
+	<li><a href="#tabs-1">Rules</a></li>
+	<li><a href="#tabs-2">Log</a></li>
+	
+	<li><a href="#tabs-3">Setting</a></li>
+	<li><a href="#tabs-4">About</a></li>
+      </ul>
+      <div id="tabs-1" style="height:650px;">	
+	<div style="width:500px; padding:0 10px 10px 10px; float:right; background-color: #eee">
+	  <h4>Trylist</h4>
+	  <textarea id="trylist" style="width: 450px;
+	  height:350px;"></textarea>
+
+	  <p><strong>ADD TO LIST</strong></p>
+	  You may want to edit it before adding.<br />
+	  Select a URL list in the left. 
+	  <input type="button"
+		 value="Add trylist to that list" onclick="do_add_trylist()" />
+
+	  <p>
+	    Trylist is a rule list created and managed by Proxior during
+	    runtime, which is comprised of domains that have been reset. </p>
+	</div>
+	<div style="width:500px;">
+	  <p><strong>QUERY A URL</strong></p>
+	  <input type="text" id="iptquery" size="80" /><br />
 	  <div id="queryres"></div>
-<input type="button" value="Find" onclick="do_find()" />
+	  <input type="button" value="Find" onclick="do_find()" />
 	  
 	  <p><strong>ADD A URL RULE</strong></p>
 	  
-1: Select a URL list: <br />
-<form id="urllist">
+	  1: Select a URL list: <br />
+	  <form id="urllist">
 
-</form>
+	  </form>
 
-<p>2: URL rule: <br /><input type="text" id="iptadd" size="80" /> <br /><input type="button"
-value="Add" onclick="do_addrule()" /></p>
+	  <p>2: URL rule: <br /><input type="text" id="iptadd" size="80" /> <br /><input type="button"
+											 value="Add" onclick="do_addrule()" /></p>
 
 	  <p><strong>FLUSH TO DISK</strong></p>
 	  <input type="button"
-value="Flush" onclick="do_flush()" />
-	  
-</div>
-<div id="tabs-2">
+		 value="Flush" onclick="do_flush()" />
 
-  Only display last 25 logs.<br />  
-  <input type="button" value="Clear log" onclick="dormlog()" />  <input type="button" value="Reload" onclick="loadlog()" />
-  <pre style="width:99%; word-wrap:break-word;" id="log"></pre>
+<p>Added rules only take effect for the current session. To save it,
+  you need to flush the lists to disk.</p>
 
-</div>
-	<div id="tabs-3">
-	  Target Proxy:<br />
-	  <input id='target_proxy' type="text" />
-	  <br />
-	  <input type=button onclick="douptarget()" value="Update" />
 	</div>
 
-	<div id="tabs-4">
-<center><h1>Proxior</h1>
+      </div>
+      <div id="tabs-2">
 
-	  <div>
-	    Version: 0.6<br />
-	    Project Homepage: <br /><a
-	    href='http://strongwillow.github.com/proxior/'>http://strongwillow.github.com/proxior/</a><br/>
-	  Developed by ClearTsai
+	Only display last 25 logs.<br />  
+	<input type="button" value="Clear log" onclick="dormlog()" />  <input type="button" value="Reload" onclick="loadlog()" />
+	<pre style="width:99%; word-wrap:break-word;" id="log"></pre>
+
+      </div>
+      <div id="tabs-3">
+	<p><strong>Target Proxy</strong></p>
+	<input id='target_proxy' type="text" />
+	<br />
+Server Version: <span id="ver"></span><br />
+
+	<p>You can manage any Proxior you can access. The target
+	location is
+	saved in Cookie.</p>
+	<input type=button onclick="douptarget()" value="Update" />
+      </div>
+
+      <div id="tabs-4" style="height:500px;">
+
+<pre style="width:600px; float:right;">
+
+
+                                   8
+                                   8
+                        .,,aadd88P=8=Y88bbaa,,.
+                  .,ad88888P:a8P:d888b:Y8a:Y88888ba,.
+              ,ad888888P:a8888:a8888888a:8888a:Y888888ba,
+           ,a8888888:d8888888:d888888888b:8888888b:8888888a,
+        ,a88888888:d88888888:d88888888888b:88888888b:88888888a,
+      ,d88888888:d888888888:d8888888888888b:888888888b:88888888b,
+    ,d88888888:d8888888888I:888888888888888:I8888888888b:88888888b,
+  ,d888888888:d88888888888:88888888888888888:88888888888b:888888888b,
+ d8888888888:I888888888888:88888888888888888:888888888888I:8888888888b
+d8P"'   `"Y8:8P"'     `"Y8:8P"'    8    `"Y8:8P"'     `"Y8:8P"'   `"Y8b
+"           "             "        8        "             "           "
+                                   8
+                Normand            8
+                Veilleux           8
+                                   8
+                                   8
+                                   8
+                                   8
+                                   8
+                                   8
+                                   8
+                                   8
+                                   8
+                                  ,8,
+                                  888
+                                  888      __
+                                  888     f88
+                                  Y88b,,,d88P
+                                  `Y8888888P'
+                                    `"""""'
+
+
+</pre>
+<div style="text-align:center; padding-top:90px;">
+	<h1>Proxior</h1>
+
+	  <div style="line-height:28px;">
+	    <b>Version</b>: 1.0.1<br />
+	   <b>Project Homepage</b>: <br /><a
+				       href='http://strongwillow.github.com/proxior/'>http://strongwillow.github.com/proxior/</a><br/>
+	    Developed by ClearTsai <br />
+	    <a href="https://twitter.com/strongwillow">@strongwillow</a>
 	  </div>
-	  </center>
-	  </div>
-</div>
+
+	</div>
+
+      </div>
+    </div>
 
 
 
-</body>
+  </body>
 
 </html>

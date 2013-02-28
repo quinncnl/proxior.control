@@ -3,6 +3,8 @@ var target;
 var listshtml = "";
 function loadlist() {
     var check=" checked";
+    loadtrylist();
+
     if (listshtml != "") $("#listname").html(listshtml);
     else
 	$.ajax({
@@ -28,6 +30,15 @@ function loadlist() {
 	});
 }
 
+function loadtrylist() {
+    $.ajax({
+	url: "http://"+target+"/gettrylist",
+	success: function( html ) {
+	    $( "#trylist" ).html(html);
+	}
+    });
+}
+
 function loadlog() {
     $.ajax({
 	url: "http://"+target+"/getlog",
@@ -47,7 +58,7 @@ function loadlog() {
 $(function() {
     target = $.cookie('target');
     if (target == undefined)
-	target = "192.168.0.6:9999";
+	target = "localhost:9999";
 
     loadlist();
     $( "#tabs" ).tabs({
@@ -60,6 +71,8 @@ $(function() {
 	    case 1:
 		loadlog();
 		break;
+	    case 2:
+		loadversion();
 	    }
 	}
     });
@@ -101,6 +114,22 @@ function do_del(rule, list) {
 	    $("#queryres").html('');
 	}
     });
+}
+
+var version;
+function loadversion() {
+    if (version == null) {
+	$.ajax({
+	    type: "GET",
+	    url: "http://"+target+"/getversion",
+	    success: function(rs) {
+		version = rs;
+		$("#ver").html(version);
+	    }
+	});
+    }
+    else
+	$("#ver").html(version);
 }
 
 function do_find() {
@@ -146,6 +175,27 @@ function do_addrule() {
 	}
     });
 }
+
+function do_add_trylist() {
+
+    var lines = $("#trylist").val().split("\n");
+    for (var i in lines) {
+	if (lines[i] == "") continue;
+
+	$.ajax({
+	    type: "POST",
+	    url: "http://"+target+"/addrule",
+	    data: {rule: encodeURIComponent(lines[i]), list: $("[name=radiolist]:checked").val()},
+	    success: function(rs) {
+
+	    }
+	});
+
+    }
+
+       
+}
+
 
 function do_flush() {
     $.ajax({
