@@ -196,6 +196,18 @@ function do_add_trylist() {
        
 }
 
+function do_purge_trylist() {
+
+  
+	$.ajax({
+	    type: "POST",
+	    url: "http://"+target+"/purgetrylist",
+	    success: function(rs) {
+		alert(rs);
+	    }
+	});
+
+}
 
 function do_flush() {
     $.ajax({

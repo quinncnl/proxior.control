@@ -54,13 +54,18 @@
 
 	  <p><strong>ADD TO LIST</strong></p>
 	  You may want to edit it before adding.<br />
-	  Select a URL list in the left. 
+	  Select a URL list in the left. <br /><br />
 	  <input type="button"
-		 value="Add trylist to that list" onclick="do_add_trylist()" />
+		 value="Add trylist to seleted list" onclick="do_add_trylist()" />
 
+	   <input type="button"
+		 value="Purge"
+		 onclick="do_purge_trylist()" />
+	  
 	  <p>
 	    Trylist is a rule list created and managed by Proxior during
-	    runtime, which is comprised of domains that have been reset. </p>
+	    runtime, which is comprised of domains that have been
+	    reset. </p>
 	</div>
 	<div style="width:500px;">
 	  <p><strong>QUERY A URL</strong></p>
